@@ -1,16 +1,16 @@
 {
-  "name": "files-folders-structure",
+  "name": "models-p2",
   "version": "1.0.0",
-  "description": "<!-- Basic files and folders stuff -->",
-  "main": "index.js",
+  "description": "",
+  "main": "Exercises.js",
   "scripts": {
-    
+    "start": "node fetching-seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "moment": "^2.29.1"
+    "axios": "^0.24.0"
   }
 }

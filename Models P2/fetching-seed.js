@@ -30,16 +30,26 @@ const getDataFromApi = async function (url) {
   //   const data = await response.json();
   const bob = want.map((each) => {
     const object = {
-      exercise_name: each.name,
-      type: each.license_author,
-      description: each.description,
-      target: each.creation_date,
+      exercise_id: each.id,
+      //   exercise_name: each.name,
+      //   type: each.license_author,
+      //   description: each.description,
+      //   target: each.creation_date,
     };
 
     return object;
   });
 
   console.log(bob);
+
+  const harry = bob.map((each) => {
+    const exerid = `https://wger.de/api/v2/exerciseiinfo/${each.exercise_id}`;
+    const exercise = await axios.get(exerid);
+
+    return exercise;
+  });
+
+  console.log(harry);
 };
 
 getDataFromApi(url);

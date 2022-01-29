@@ -8,6 +8,14 @@ $(function () {
     containment: "#containment-wrapper",
     scroll: false,
   });
+  $("#draggable13").draggable({
+    containment: "#containment-wrapper",
+    scroll: false,
+  });
+  $("#draggable113").draggable({
+    containment: "#containment-wrapper",
+    scroll: false,
+  });
   $("#draggable4").draggable({ containment: "parent" });
 });
 // Mobile burger menu

@@ -2,21 +2,202 @@
 
 const { ApolloServer, gql } = require("apollo-server");
 
+const teacherData = [
+  {
+    firstName: "Bob",
+    lastName: "Maths",
+  },
+  {
+    firstName: "Jane",
+    lastName: "Algebra",
+  },
+  {
+    firstName: "Dan",
+    lastName: "Shape",
+  },
+  {
+    firstName: "Bob",
+    lastName: "Verb",
+  },
+  {
+    firstName: "Jane",
+    lastName: "Adjective",
+  },
+  {
+    firstName: "Dan",
+    lastName: "Similies",
+  },
+  {
+    firstName: "Bob",
+    lastName: "Venn",
+  },
+  {
+    firstName: "Jane",
+    lastName: "Atom",
+  },
+  {
+    firstName: "Dan",
+    lastName: "Scales",
+  },
+];
+
+const roomData = [
+  {
+    number: 1,
+    corridor: 1,
+  },
+  {
+    number: 2,
+    corridor: 1,
+  },
+  {
+    number: 3,
+    corridor: 1,
+  },
+  {
+    number: 1,
+    corridor: 2,
+  },
+  {
+    number: 2,
+    corridor: 2,
+  },
+  {
+    number: 3,
+    corridor: 2,
+  },
+  {
+    number: 1,
+    corridor: 3,
+  },
+  {
+    number: 2,
+    corridor: 3,
+  },
+  {
+    number: 3,
+    corridor: 3,
+  },
+];
+
+const subjectData = [
+  {
+    topic: "Maths",
+    rooms: [
+      {
+        number: 1,
+        corridor: 1,
+      },
+      {
+        number: 2,
+        corridor: 1,
+      },
+      {
+        number: 3,
+        corridor: 1,
+      },
+    ],
+    teachers: [
+      {
+        firstName: "Bob",
+        lastName: "Maths",
+      },
+      {
+        firstName: "Jane",
+        lastName: "Algebra",
+      },
+      {
+        firstName: "Dan",
+        lastName: "Shape",
+      },
+    ],
+  },
+  {
+    topic: "Science",
+    rooms: [
+      {
+        number: 1,
+        corridor: 2,
+      },
+      {
+        number: 2,
+        corridor: 2,
+      },
+      {
+        number: 3,
+        corridor: 2,
+      },
+    ],
+    teachers: [
+      {
+        firstName: "Bob",
+        lastName: "Venn",
+      },
+      {
+        firstName: "Jane",
+        lastName: "Atom",
+      },
+      {
+        firstName: "Dan",
+        lastName: "Scales",
+      },
+    ],
+  },
+  {
+    topic: "English",
+    rooms: [
+      {
+        number: 1,
+        corridor: 3,
+      },
+      {
+        number: 2,
+        corridor: 3,
+      },
+      {
+        number: 3,
+        corridor: 3,
+      },
+    ],
+    teachers: [
+      {
+        firstName: "Bob",
+        lastName: "Verb",
+      },
+      {
+        firstName: "Jane",
+        lastName: "Adjective",
+      },
+      {
+        firstName: "Dan",
+        lastName: "Similies",
+      },
+    ],
+  },
+];
+
 const typeDefs = gql`
-  type Author {
+  type Teacher {
     firstName: String
     lastName: String
   }
 
-  type Book {
-    id: String
-    title: String
-    author: Author
+  type Room {
+    number: Int
+    corridor: Int
+  }
+
+  type Subject {
+    topic: String
+    rooms: [Room]
+    teachers: [Teacher]
   }
 
   type Query {
-    books: [Book]
-    authors: [Author]
+    rooms: [Room]
+    teachers: [Teacher]
+    subject(topic: String!): Subject
+    subjects: [Subject]
   }
 `;
 
@@ -25,13 +206,26 @@ const typeDefs = gql`
 // schema should contain Subscriptions if any
 
 // Step 2: Define your resolvers
-const booksResolver = () => {};
-const authorResolver = () => {};
+const roomsResolver = () => {
+  return roomData;
+};
+const teachersResolver = () => {
+  return teacherData;
+};
+const subjectsResolver = () => {
+  return subjectData;
+};
+const subjectResolver = (parent, args, context, info) => {
+  const { topic } = args;
+  return subjectData.find((a) => a.topic == topic);
+};
 
 const resolvers = {
   Query: {
-    books: () => booksResolver,
-    authors: () => authorResolver,
+    rooms: roomsResolver,
+    teachers: teachersResolver,
+    subjects: subjectsResolver,
+    subject: subjectResolver,
   },
 };
 const server = new ApolloServer({ typeDefs, resolvers });
